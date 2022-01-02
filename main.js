@@ -2,11 +2,11 @@ var affirmationSelect = document.getElementById('affirmations');
 var mantraSelect = document.getElementById('mantras');
 var receiveMsgButton = document.getElementById('receive-btn');
 var icon = document.getElementById('meditate-icon');
-var message = document.getElementById('msg');
+var messageText = document.getElementById('msg');
 var loader = document.getElementById('loading');
 var background = document.querySelector('body');
-var affirmBG = document.querySelector('.background-affirm');
-var mantraBG = document.querySelector('.background-mantra');
+var affirmBackground = document.querySelector('.background-affirm');
+var mantraBackground = document.querySelector('.background-mantra');
 var clearMsgButton = document.getElementById('clear-btn');
 var affirmations = [
   "I forgive myself and set myself free.",
@@ -44,67 +44,110 @@ var shownAffirmations = [];
 var shownMantras = [];
 
 receiveMsgButton.addEventListener('click', function() {
+  checkSelection();
+  checkArrays();
+  hideIcon();
   displayLoading();
   getMessage();
+  changeBackground();
   displayMessage();
 });
 
-clearMsgButton.addEventListener('click', clearMessage);
+clearMsgButton.addEventListener('click', clearMessageBox);
 
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
 };
 
-function getMessage() {
-  if (affirmationSelect.checked && affirmations.length) {
-    addAffirmationBG();
-    var index = getRandomIndex(affirmations);
-    message.innerText = affirmations[index];
-    shownAffirmations.push(affirmations[index]);
-    affirmations.splice(index, 1);
-  }
-  if (affirmationSelect.checked && !affirmations.length) {
-    alertMsg();
-    affirmations = shownAffirmations.slice();
-    shownAffirmations = [];
-  }
-  if (mantraSelect.checked && mantras.length) {
-    addMantraBG();
-    var index = getRandomIndex(mantras);
-    message.innerText = mantras[index];
-    shownMantras.push(mantras[index]);
-    mantras.splice(index, 1);
-  }
-  if (mantraSelect.checked && !mantras.length) {
-    alertMsg();
-    mantras = shownMantras.slice();
-    shownMantras = [];
-  }
+function checkSelection() {
   if (!affirmationSelect.checked && !mantraSelect.checked) {
     window.alert("Please select a message type.");
   }
 };
 
-function displayMessage() {
-  event.preventDefault();
-  if (affirmationSelect.checked || mantraSelect.checked) {
-    icon.classList.add('hidden');
-    setTimeout(function() {
-      message.classList.remove('hidden');
-    }, 2000);
-    setTimeout(function() {
-      clearMsgButton.classList.remove('hidden');
-    }, 2000);
+function checkArrays() {
+  if (affirmationSelect.checked && !affirmations.length) {
+    alertEndOfList();
+    resetAffirmations();
   }
-  if (!message.classList.contains('hidden') && affirmationSelect.checked || mantraSelect.checked) {
-    message.classList.add('hidden');
-    setTimeout(function() {
-      message.classList.remove('hidden');
-    }, 2000);
+  if (mantraSelect.checked && !mantras.length) {
+    alertEndOfList();
+    resetMantras();
   }
 };
 
-function alertMsg() {
+function hideIcon() {
+  if (affirmationSelect.checked || mantraSelect.checked) {
+    icon.classList.add('hidden');
+  }
+};
+
+function getMessage() {
+  if (affirmationSelect.checked && affirmations.length) {
+    var index = getRandomIndex(affirmations);
+    currentMessage = affirmations[index];
+    markShown(affirmations);
+  }
+  if (mantraSelect.checked && mantras.length) {
+    var index = getRandomIndex(mantras);
+    currentMessage = mantras[index];
+    markShown(mantras);
+  }
+};
+
+function markShown(array) {
+  for (var i = 0; i < array.length; i++) {
+    if (array === affirmations && array[i] === currentMessage) {
+      shownAffirmations.push(currentMessage);
+      affirmations.splice(i, 1);
+    }
+    if (array === mantras && array[i] === currentMessage) {
+      shownMantras.push(currentMessage);
+      mantras.splice(i, 1);
+    }
+  }
+};
+
+function displayMessage() {
+  event.preventDefault();
+  messageText.innerText = currentMessage;
+  if (affirmationSelect.checked || mantraSelect.checked) {
+    unhideMessage();
+    unhideClearMsgButton();
+  }
+  if (!messageText.classList.contains('hidden') && affirmationSelect.checked || mantraSelect.checked) {
+    hideMessage();
+    unhideMessage();
+  }
+};
+
+function hideMessage() {
+  messageText.classList.add('hidden')
+};
+
+function unhideMessage() {
+  setTimeout(function() {
+    messageText.classList.remove('hidden');
+  }, 2000);
+};
+
+function resetAffirmations() {
+  affirmations = shownAffirmations.slice();
+  shownAffirmations = [];
+};
+
+function resetMantras() {
+  mantras = shownMantras.slice();
+  shownMantras = [];
+};
+
+function unhideClearMsgButton() {
+  setTimeout(function() {
+    clearMsgButton.classList.remove('hidden');
+  }, 2000);
+};
+
+function alertEndOfList() {
   if (affirmationSelect.checked) {
     window.alert("You've received all of the affirmations. You will now begin seeing repeats.");
   }
@@ -122,17 +165,18 @@ function displayLoading() {
   }
 };
 
-function addAffirmationBG() {
-  mantraBG.style.opacity = '0';
-  affirmBG.style.opacity = '1';
+function changeBackground() {
+  if (affirmationSelect.checked && affirmations.length) {
+    mantraBackground.style.opacity = '0';
+    affirmBackground.style.opacity = '1';
+  }
+  if (mantraSelect.checked && mantras.length) {
+    mantraBackground.style.opacity = '1';
+  }
 };
 
-function addMantraBG() {
-  mantraBG.style.opacity = '1';
-};
-
-function clearMessage() {
-  message.classList.add('hidden');
+function clearMessageBox() {
+  messageText.classList.add('hidden');
   icon.classList.remove('hidden');
   clearMsgButton.classList.add('hidden');
 };

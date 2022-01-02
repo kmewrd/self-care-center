@@ -14,13 +14,34 @@ section {
   padding: 6px;
 }
 
-form {
-  padding: 4px;
+button {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+  background: #134d71;
+  color: #ffffff;
+  border: 0;
+  border-radius: 6px;
+  transition: background .3s;
+}
+
+button:hover {
+  background: #86ADC5;
+}
+
+#selection-box {
+  width: 570px;
+  margin: auto;
+  margin-bottom: 100px;
 }
 
 #radio-btns {
   display: flex;
   justify-content: space-around;
+  margin-top: 5px;
+}
+
+form {
+  padding: 4px;
 }
 
 label {
@@ -28,18 +49,15 @@ label {
   font-style: italic;
 }
 
-.background {
-  background: linear-gradient(#134d71, #78a7c6, #f7e4bf);
-  background-attachment: fixed;
-}
-
-#selection {
-  width: 570px;
+#receive-btn {
+  width: 180px;
+  height: 28px;
+  display: block;
   margin: auto;
-  margin-bottom: 100px;
+  margin-top: 15px;
 }
 
-#message {
+#message-box {
   width: 900px;
   height: 150px;
   margin: auto;
@@ -53,62 +71,34 @@ label {
   width: 80px;
 }
 
-#receive-btn {
-  font-family: 'Quicksand', sans-serif;
-  font-size: 16px;
-  background: #134d71;
-  color: #ffffff;
-  display: block;
-  border: 0;
-  border-radius: 6px;
-  width: 180px;
-  height: 28px;
-  margin: auto;
-  margin-top: 15px;
-  transition: background .3s;
-}
-
-#receive-btn:hover {
-  background: #86ADC5;
-}
-
-#affirmations, #mantras {
-  margin-top: 8px;
-}
-
-.hidden {
-  display: none;
-  visibility: hidden;
-}
-
 #clear-btn {
-  font-family: 'Quicksand', sans-serif;
-  font-size: 16px;
-  background: #134d71;
-  color: #ffffff;
-  border: 0;
-  border-radius: 6px;
   width: 50px;
   height: 28px;
   position: absolute;
   top: 5px;
   right: 5px;
-  transition: background .3s;
   animation: fade-in 1.0s;
 }
 
-#clear-btn:hover {
-  background: #86ADC5;
-}
-
 #msg {
-  align-self: center;
-  margin: auto;
   font-family: 'Quicksand', sans-serif;
   font-size: 18px;
   text-align: center;
   animation: fade-in 1.0s;
   position: absolute;
+}
+
+#loading {
+  width: 25px;
+  height: 25px;
+  background-color: #134d71;
+  border-radius: 50%;
+  animation: pulse 1.0s infinite ease;
+  position: absolute;
+}
+
+.hidden {
+  display: none;
 }
 
 @keyframes fade-in {
@@ -118,16 +108,6 @@ label {
   100% {
     opacity: 1;
   }
-}
-
-#loading {
-  width: 25px;
-  height: 25px;
-  background-color: #134d71;
-  border-radius: 50%;
-  margin: auto;
-  animation: pulse 1.0s infinite ease;
-  position: absolute;
 }
 
 @keyframes pulse {
@@ -140,9 +120,13 @@ label {
   }
 }
 
+.background {
+  background: linear-gradient(#134d71, #78a7c6, #f7e4bf);
+  background-attachment: fixed;
+}
+
 .background-affirm {
 background: linear-gradient(#50335C, #80668A, #F4E3FB);
-background-attachment: fixed;
 position: absolute;
 top: 0;
 right: 0;
@@ -155,7 +139,6 @@ transition: opacity 1.5s linear;
 
 .background-mantra {
 background: linear-gradient(#396B3F, #76A17B, #A4C3A8);
-background-attachment: fixed;
 position: absolute;
 top: 0;
 right: 0;
@@ -167,28 +150,28 @@ transition: opacity 1.5s linear;
 }
 
 @media (max-width: 1024px) {
-  #selection {
+  #selection-box {
     width: 456px;
   }
-  #message {
+  #message-box {
     width: 720px;
   }
 }
 
 @media (max-width: 767px) {
-  #selection {
+  #selection-box {
     width: 400px;
   }
-  #message {
+  #message-box {
     width: 600px;
   }
 }
 
 @media (max-width: 480px) {
-  #selection {
+  #selection-box {
     width: 400px;
   }
-  #message {
+  #message-box {
     width: 400px;
     height: 200px;
   }
